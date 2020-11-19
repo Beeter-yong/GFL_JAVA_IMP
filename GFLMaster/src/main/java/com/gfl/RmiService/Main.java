@@ -27,6 +27,8 @@ public class Main {
             try {
                 Naming.rebind(urlClient, clientService);
                 Naming.rebind(urlChunkServer, chunkServerService);
+
+                System.out.println("等待客户端调用");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

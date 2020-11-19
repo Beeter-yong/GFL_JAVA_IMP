@@ -1,6 +1,8 @@
 package com.gfl.entry;
 
-public class ChunkCopyInfo {
+import java.io.Serializable;
+
+public class ChunkCopyInfo implements Serializable {
     private String chunkIP;
     private String port;
 

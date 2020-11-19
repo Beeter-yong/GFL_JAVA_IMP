@@ -23,12 +23,14 @@ public class Client {
             Context nameingContext = new InitialContext();
             String urlMaster = "rmi://127.0.0.1:6666/clientService";
 
-//            Enumeration<NameClassPair> e = nameingContext.list("rmi://127.0.0.1:6666/");
-//            while (e.hasMoreElements()) {
-//                System.out.println(e.nextElement().getName());
-//            }
+            Enumeration<NameClassPair> e = nameingContext.list("rmi://127.0.0.1:6666/");
+            while (e.hasMoreElements()) {
+                System.out.println(e.nextElement().getName());
+            }
             //从注册表中获取服务类
             clientService = (ClientService) nameingContext.lookup(urlMaster);
+
+            System.out.println("获得服务");
 
             //相关动作
         } catch (NamingException e) {

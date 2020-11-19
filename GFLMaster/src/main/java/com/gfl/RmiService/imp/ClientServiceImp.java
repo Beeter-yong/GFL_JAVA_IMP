@@ -7,16 +7,14 @@ import com.gfl.entry.FileInfo;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ClientServiceImp extends UnicastRemoteObject implements ClientService {
     //每个 Chunk 最大所占字节
     private final int CHUNK_SIZE = 64 * 1024;
     private final int CHUNK_COPY_NUM = 3;
 
-    private Map<String, FileInfo> namespace;
+    private Map<String, FileInfo> namespace = new HashMap<String, FileInfo>(32);
     public ClientServiceImp() throws RemoteException {
     }
 
@@ -41,7 +39,7 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
 
     //创建每个文件对应的 Chunk
     private List FileChunkInfos(Long fileLength, int chunkNum){
-        List<FileChunkInfo> fileChunkInfos = null;
+        List<FileChunkInfo> fileChunkInfos = new ArrayList<FileChunkInfo>();
         FileChunkInfo fileChunkInfo = new FileChunkInfo();
         for (int i = 0; i < chunkNum; i++){
             int start = i * CHUNK_SIZE;
@@ -54,6 +52,8 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
             fileChunkInfo.setStart(start);
             fileChunkInfo.setEnd(end);
             fileChunkInfo.setChunkCopys(ChunkCopyInfos());
+
+            fileChunkInfos.add(fileChunkInfo);
         }
 
         return fileChunkInfos;
@@ -62,11 +62,12 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
     //创建 Chunk 所存在的位置
     private List ChunkCopyInfos() {
         ChunkCopyInfo chunkCopyInfo = new ChunkCopyInfo();
-        List<ChunkCopyInfo> chunkCopyInfos = null;
+        List<ChunkCopyInfo> chunkCopyInfos = new ArrayList<ChunkCopyInfo>();
         for (int i = 0; i < CHUNK_COPY_NUM; i++){
             //此处应该使用某种算法随机响应 Chunk 位置
             chunkCopyInfo.setChunkIP("11111111");
             chunkCopyInfo.setPort("5555");
+
             chunkCopyInfos.add(chunkCopyInfo);
         }
         return chunkCopyInfos;

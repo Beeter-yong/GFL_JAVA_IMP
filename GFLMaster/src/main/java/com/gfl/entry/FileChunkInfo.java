@@ -3,7 +3,7 @@ package com.gfl.entry;
 import java.io.Serializable;
 import java.util.List;
 
-public class FileChunkInfo {
+public class FileChunkInfo implements Serializable {
     private int start;
     private int end;
     private List<ChunkCopyInfo> chunkCopys;
