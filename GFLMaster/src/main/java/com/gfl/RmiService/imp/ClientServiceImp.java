@@ -22,7 +22,7 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
         if (fileLength == 0) {
             return null;
         }
-        int chunkNum = (int) Math.ceil(fileLength / CHUNK_SIZE);
+        int chunkNum = (int) Math.ceil(fileLength / (double)CHUNK_SIZE);
         String id = RandomString();
         FileInfo fileInfo = new FileInfo();
 
@@ -40,14 +40,15 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
     //创建每个文件对应的 Chunk
     private List FileChunkInfos(Long fileLength, int chunkNum){
         List<FileChunkInfo> fileChunkInfos = new ArrayList<FileChunkInfo>();
-        FileChunkInfo fileChunkInfo = new FileChunkInfo();
+
         for (int i = 0; i < chunkNum; i++){
+            FileChunkInfo fileChunkInfo = new FileChunkInfo();
             int start = i * CHUNK_SIZE;
             int end;
             if (i != chunkNum - 1) {
                 end = start + CHUNK_SIZE;
             }else {
-                end = (int) Math.ceil(fileLength % CHUNK_SIZE);
+                end = start + (int) Math.ceil(fileLength % CHUNK_SIZE);
             }
             fileChunkInfo.setStart(start);
             fileChunkInfo.setEnd(end);

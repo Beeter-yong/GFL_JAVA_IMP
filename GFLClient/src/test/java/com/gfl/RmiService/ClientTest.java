@@ -13,4 +13,9 @@ public class ClientTest {
         client.write(filePath);
 
     }
+
+    @Test
+    public void test02(){
+        System.out.println(Math.ceil(5 / 2.2));
+    }
 }

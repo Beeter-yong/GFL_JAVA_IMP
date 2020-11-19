@@ -1,6 +1,6 @@
-package com.gfl.service;
+package com.gfl.RmiService;
 
-import com.gfl.service.imp.ChunkClientServiceImp;
+import com.gfl.RmiService.imp.ChunkClientServiceImp;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -19,9 +19,10 @@ public class Main {
             LocateRegistry.createRegistry(7777);
 
             //3.绑定对象
-            String url = "rmi://127.0.0.1:7777/chunkClientService01";
+            String url = "rmi://127.0.0.1:7777/chunkClientService";
             try {
                 Naming.rebind(url, chunkClientService);
+                System.out.println("等待客户端调用！！！！");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
