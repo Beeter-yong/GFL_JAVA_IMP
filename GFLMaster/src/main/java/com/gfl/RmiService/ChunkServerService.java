@@ -1,7 +1,6 @@
-package com.gfl.service;
+package com.gfl.RmiService;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 
 public interface ChunkServerService extends Remote {
 }

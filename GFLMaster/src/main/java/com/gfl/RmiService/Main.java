@@ -1,7 +1,7 @@
-package com.gfl.service;
+package com.gfl.RmiService;
 
-import com.gfl.service.imp.ChunkServerServiceImp;
-import com.gfl.service.imp.ClientServiceImp;
+import com.gfl.RmiService.imp.ChunkServerServiceImp;
+import com.gfl.RmiService.imp.ClientServiceImp;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

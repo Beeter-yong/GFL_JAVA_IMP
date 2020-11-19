@@ -1,6 +1,6 @@
-package com.gfl.service.imp;
+package com.gfl.RmiService.imp;
 
-import com.gfl.service.ChunkServerService;
+import com.gfl.RmiService.ChunkServerService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
