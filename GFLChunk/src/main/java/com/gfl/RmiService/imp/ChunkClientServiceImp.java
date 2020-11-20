@@ -30,4 +30,11 @@ public class ChunkClientServiceImp extends UnicastRemoteObject implements ChunkC
         System.out.println("写入失败");
         return false;
     }
+
+    public byte[] Read(int chunkNum, String fileName, int size) throws RemoteException {
+        FileOp fileOp = new FileOp();
+        String filePath = "src/main/resources/" + chunkNum + fileName;
+
+        return fileOp.ReadBytes(filePath, size);
+    }
 }

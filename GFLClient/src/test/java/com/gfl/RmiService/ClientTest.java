@@ -5,8 +5,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ClientTest {
-//    String filePath = "src/main/resources/gfs.pdf";
-    String filePath = "src/main/resources/aaa.text";
+    String filePath = "src/main/resources/gfs.pdf";
+//    String filePath = "src/main/resources/aaa.text";
+//    String WriteFilePath = "src/main/resources/bbb.text";
+    String WriteFilePath = "src/main/resources/bbb.pdf";
 
     @Test
     public void test01(){
@@ -17,6 +19,8 @@ public class ClientTest {
 
     @Test
     public void test02(){
-        System.out.println(Math.ceil(5 / 2.2));
+        Client client = new Client();
+//        client.Read("aaa.text", WriteFilePath);
+        client.Read("gfs.pdf", WriteFilePath);
     }
 }

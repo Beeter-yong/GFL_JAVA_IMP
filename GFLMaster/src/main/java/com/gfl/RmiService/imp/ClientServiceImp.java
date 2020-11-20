@@ -18,6 +18,18 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
     public ClientServiceImp() throws RemoteException {
     }
 
+    //响应 Client 的读文件
+    public FileInfo Read(String fileName) throws RemoteException {
+        System.out.println("调用 Read!");
+        FileInfo fileInfo = namespace.get(fileName);
+        if (fileInfo != null) {
+            return fileInfo;
+        }
+        System.out.println("Master 没有此文件记录");
+        return null;
+    }
+
+    //响应 Client 的写文件
     public FileInfo Write(String fileName, Long fileLength) throws RemoteException {
         System.out.println("调用 Write ！");
         if (fileLength == 0) {
@@ -40,6 +52,8 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
         }
         return fileInfo;
     }
+
+
 
     //创建每个文件对应的 Chunk
     private List FileChunkInfos(Long fileLength, int chunkNum){

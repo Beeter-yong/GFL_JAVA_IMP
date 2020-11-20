@@ -7,4 +7,6 @@ import java.rmi.RemoteException;
 
 public interface ClientService extends Remote {
     public FileInfo Write(String fileName, Long fileLength) throws RemoteException;
+
+    public FileInfo Read(String fileName) throws RemoteException;
 }

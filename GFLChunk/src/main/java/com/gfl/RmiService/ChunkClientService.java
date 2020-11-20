@@ -9,4 +9,6 @@ public interface ChunkClientService extends Remote {
     public String test(String name) throws RemoteException;
 
     public boolean Write(ChunkClientInfo chunkClientInfo) throws RemoteException;
+
+    public byte[] Read(int chunkNum, String fileName, int size) throws RemoteException;
 }

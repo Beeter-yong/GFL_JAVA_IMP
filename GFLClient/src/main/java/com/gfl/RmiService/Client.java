@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * 提供 Client 操作相关接口
@@ -41,7 +42,38 @@ public class Client {
         }
     }
 
-    //写文件
+
+    /**
+     * 读文件
+     * @param fileName 读的文件名称
+     * @param writteFilePath 将读取的文件放置位置
+     */
+    public void Read(String fileName, String writteFilePath) {
+        //1.发送给 Master 文件名获取文件信息
+        FileInfo fileInfo = null;
+        try {
+            fileInfo = clientService.Read(fileName);
+            if (fileInfo == null) {
+                System.out.println("不存在此文件！！！");
+                return;
+            }else {
+                //2. 联系 ChunkServer 拿去文件
+                System.out.println("成功！！");
+                boolean sucess = ReadFileByChunkServer(fileInfo, writteFilePath);
+                if (sucess == false) {
+                    System.out.println("读取文件失败！！");
+                    return;
+                }
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 写文件
+     * @param filePath 要写的本地文件路径
+     */
     public void write(String filePath) {
         //1.从Master 获取文件分配成 Chunk 的信息
         FileInfo fileInfo = GetFileInfoByMaster(filePath);
@@ -75,6 +107,33 @@ public class Client {
         }
     }
 
+    // 根据文件信息获取文件
+    private boolean ReadFileByChunkServer(FileInfo fileInfo, String writeFilePath){
+        int chunkNum = fileInfo.getChunkNum();
+        FileChunkInfo fileChunkInfo;
+        ChunkCopyInfo chunkCopyInfo;
+        for (int  i = 0; i < chunkNum; i++) {
+            fileChunkInfo = fileInfo.getChunks().get(i);
+            //获取最好的 ChunkServer
+            chunkCopyInfo = GetBestChunk(fileChunkInfo.getChunkCopys());
+//            String ip = chunkCopyInfo.getChunkIP();
+//            String port = chunkCopyInfo.getPort();
+            String ip = "127.0.0.1";
+            String port = "7777";
+            ChunkClient chunkClient = new ChunkClient(ip, port);
+            //获取Chunk
+            byte[] bytes = chunkClient.ReadBytes(i, fileInfo.getFileName(), fileChunkInfo.getEnd() - fileChunkInfo.getStart());
+            //将bytes写入到本地
+            FileOp fileOp = new FileOp();
+            fileOp.BytesWriteFile(writeFilePath, bytes);
+        }
+        return true;
+    }
+
+    //从多个副本 Chunk 中选取
+    private ChunkCopyInfo GetBestChunk(List<ChunkCopyInfo> chunkCopyInfos){
+        return chunkCopyInfos.get(0);
+    }
 
     //写操作中与 Master 操作
     private FileInfo GetFileInfoByMaster(String filePath){

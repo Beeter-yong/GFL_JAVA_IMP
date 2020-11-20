@@ -1,6 +1,7 @@
 package com.gfl.RmiService;
 
 import com.gfl.entry.ChunkClientInfo;
+import com.gfl.entry.FileChunkInfo;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -35,6 +36,15 @@ public class ChunkClient {
         }
     }
 
+    public byte[] ReadBytes(int chunkNum, String fileName, int size){
+        try {
+            return chunkClientService.Read(chunkNum, fileName, size);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        System.out.println("读取bytes发送错误");
+        return null;
+    }
     //传输文件
     public boolean SendChunkFile(ChunkClientInfo chunkClientInfo) {
         boolean success = false;

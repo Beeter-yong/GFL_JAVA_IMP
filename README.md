@@ -9,15 +9,15 @@
 ### Client
 
 - 功能
-- write
-  - 获取一个文件、文件名
-  - 读取文件大小
-  - 发送文件名和大小给 Master
-  - 根据 Maste 传回的 ip、port 将相应的字节存放在各个 Chunk 并发送给 ChunkServer
-- read
-- append
-- exit
-- delete
+  - write
+    - 获取一个文件、文件名
+    - 读取文件大小
+    - 发送文件名和大小给 Master
+    - 根据 Maste 传回的 ip、port 将相应的字节存放在各个 Chunk 并发送给 ChunkServer
+  - read
+  - append
+  - exit
+  - delete
 
 ### Master
 

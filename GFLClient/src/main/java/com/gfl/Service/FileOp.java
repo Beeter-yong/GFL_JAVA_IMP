@@ -12,10 +12,36 @@ public class FileOp {
     private String fileName;
     private long fileLength;
 
+    public FileOp() {
+    }
     public FileOp(String filePath) {
         file = new File(filePath);
         fileName = file.getName();
         fileLength = file.length();
+    }
+
+    //将字节数组写入本地
+    public boolean BytesWriteFile (String filePath, byte[] bytes) {
+        FileOutputStream fileOutputStream = null;
+        BufferedOutputStream bufferedOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(filePath, true);
+            bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
+            bufferedOutputStream.write(bytes);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bufferedOutputStream.close();
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("写入本地失败！！  ");
+        return false;
+
     }
 
     //对文件进行字节化
