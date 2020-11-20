@@ -24,17 +24,21 @@ public class FileOp {
         byte[] bytes = new byte[size];
 
         FileInputStream fileInputStream = null;
+        BufferedInputStream bufferedInputStream = null;
         try {
             fileInputStream = new FileInputStream(file);
 
-            fileInputStream.skip(start);
+            bufferedInputStream = new BufferedInputStream(fileInputStream);
 
-            fileInputStream.read(bytes);
+            bufferedInputStream.skip(start);
+
+            bufferedInputStream.read(bytes);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
                 fileInputStream.close();
+                bufferedInputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -19,6 +19,7 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
     }
 
     public FileInfo Write(String fileName, Long fileLength) throws RemoteException {
+        System.out.println("调用 Write ！");
         if (fileLength == 0) {
             return null;
         }
@@ -34,6 +35,9 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
         fileInfo.setChunks(FileChunkInfos(fileLength, chunkNum));
 
         namespace.put(fileName, fileInfo);
+        if (fileInfo == null) {
+            System.out.println("Master Write 有错误");
+        }
         return fileInfo;
     }
 

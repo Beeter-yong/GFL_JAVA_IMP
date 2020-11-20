@@ -1,6 +1,7 @@
 package com.gfl.RmiService;
 
 import com.gfl.Service.FileOp;
+import com.gfl.entry.ChunkClientInfo;
 import com.gfl.entry.ChunkCopyInfo;
 import com.gfl.entry.FileChunkInfo;
 import com.gfl.entry.FileInfo;
@@ -32,7 +33,7 @@ public class Client {
             //从注册表中获取服务类
             clientService = (ClientService) nameingContext.lookup(urlMaster);
 
-            System.out.println("获得服务");
+            System.out.println("获得Master服务");
 
             //相关动作
         } catch (NamingException e) {
@@ -44,6 +45,9 @@ public class Client {
     public void write(String filePath) {
         //1.从Master 获取文件分配成 Chunk 的信息
         FileInfo fileInfo = GetFileInfoByMaster(filePath);
+        if (fileInfo == null){
+            System.out.println("有问题");
+        }
         FileChunkInfo fileChunkInfo;
         //2.根据信息将文件传输给对应 ChunkServer 保存
         //循环获取 文件分成的多个 Chunk
@@ -52,8 +56,12 @@ public class Client {
             int fileChunkInfoNum = fileChunkInfo.getChunkCopys().size();
             //读取指定大小的文件
             byte[] bytes = new FileOp(filePath).getFileBytes(fileChunkInfo.getStart(), fileChunkInfo.getEnd());
-
             //创建传输的基本对象，并填充，后续发送给ChunkServer
+            ChunkClientInfo chunkClientInfo = new ChunkClientInfo();
+            chunkClientInfo.setId(fileInfo.getId());
+            chunkClientInfo.setChunkNum(i);
+            chunkClientInfo.setFileName(fileInfo.getFileName());
+            chunkClientInfo.setBytes(bytes);
 
             //循环对每一个文件Chunk对应的副本进行传输保存
             for (int j = 0; j < fileChunkInfoNum; j++) {
@@ -61,6 +69,8 @@ public class Client {
 //                ChunkClient chunkClient = new ChunkClient(chunkCopyInfo.getChunkIP(), chunkCopyInfo.getPort());
                 ChunkClient chunkClient = new ChunkClient("127.0.0.1", "7777");
                 //进行文件保存
+                boolean success = chunkClient.SendChunkFile(chunkClientInfo);
+                System.out.println(success);
             }
         }
     }
