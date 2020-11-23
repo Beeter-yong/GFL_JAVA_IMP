@@ -29,5 +29,8 @@ public class Main {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        //发送心跳信息
+        SendMasterHeart sendMasterHeart = new SendMasterHeart();
+        sendMasterHeart.sendHeartLoop();
     }
 }

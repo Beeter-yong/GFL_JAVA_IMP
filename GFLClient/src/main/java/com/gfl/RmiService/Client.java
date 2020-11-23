@@ -98,8 +98,8 @@ public class Client {
             //循环对每一个文件Chunk对应的副本进行传输保存
             for (int j = 0; j < fileChunkInfoNum; j++) {
                 ChunkCopyInfo chunkCopyInfo = fileChunkInfo.getChunkCopys().get(j);
-//                ChunkClient chunkClient = new ChunkClient(chunkCopyInfo.getChunkIP(), chunkCopyInfo.getPort());
-                ChunkClient chunkClient = new ChunkClient("127.0.0.1", "7777");
+                ChunkClient chunkClient = new ChunkClient(chunkCopyInfo.getChunkIP(), chunkCopyInfo.getPort());
+//                ChunkClient chunkClient = new ChunkClient("127.0.0.1", "7777");
                 //进行文件保存
                 boolean success = chunkClient.SendChunkFile(chunkClientInfo);
                 System.out.println(success);
@@ -116,10 +116,10 @@ public class Client {
             fileChunkInfo = fileInfo.getChunks().get(i);
             //获取最好的 ChunkServer
             chunkCopyInfo = GetBestChunk(fileChunkInfo.getChunkCopys());
-//            String ip = chunkCopyInfo.getChunkIP();
-//            String port = chunkCopyInfo.getPort();
-            String ip = "127.0.0.1";
-            String port = "7777";
+            String ip = chunkCopyInfo.getChunkIP();
+            String port = chunkCopyInfo.getPort();
+//            String ip = "127.0.0.1";
+//            String port = "7777";
             ChunkClient chunkClient = new ChunkClient(ip, port);
             //获取Chunk
             byte[] bytes = chunkClient.ReadBytes(i, fileInfo.getFileName(), fileChunkInfo.getEnd() - fileChunkInfo.getStart());

@@ -35,6 +35,9 @@
         - 查看文件名是否存在
         - 如果存在，将文件的信息发送给 Client
   - 8888：监听 Chunk
+    - 接受心跳
+      - 接收来自 ChunkServer 的心跳信息
+      - 将心跳信息保存在一个 map 中
 
 ### ChunkServer
 
@@ -44,3 +47,5 @@
       - 根据 Client 传过来的 Chunk 进行存储
       - 响应 Client 是否成功
       - 保存 Chunk 名字与位置的映射
+    - 发出心跳
+      - 将自己的 ip 和 port 发送给 Master

@@ -1,9 +1,7 @@
 package com.gfl.RmiService.imp;
 
 import com.gfl.RmiService.ClientService;
-import com.gfl.entry.ChunkCopyInfo;
-import com.gfl.entry.FileChunkInfo;
-import com.gfl.entry.FileInfo;
+import com.gfl.entry.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -82,11 +80,13 @@ public class ClientServiceImp extends UnicastRemoteObject implements ClientServi
     private List ChunkCopyInfos() {
         ChunkCopyInfo chunkCopyInfo = new ChunkCopyInfo();
         List<ChunkCopyInfo> chunkCopyInfos = new ArrayList<ChunkCopyInfo>();
+        HeartInfo heartInfo;
+
         for (int i = 0; i < CHUNK_COPY_NUM; i++){
             //此处应该使用某种算法随机响应 Chunk 位置
-            chunkCopyInfo.setChunkIP("11111111");
-            chunkCopyInfo.setPort("5555");
-
+            heartInfo = GlobalHeartInfos.heartInfos.get((int)Math.random()*GlobalHeartInfos.heartInfos.size());
+            chunkCopyInfo.setChunkIP(heartInfo.getIp());
+            chunkCopyInfo.setPort(heartInfo.getPort());
             chunkCopyInfos.add(chunkCopyInfo);
         }
         return chunkCopyInfos;
