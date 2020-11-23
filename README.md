@@ -15,6 +15,9 @@
     - 发送文件名和大小给 Master
     - 根据 Maste 传回的 ip、port 将相应的字节存放在各个 Chunk 并发送给 ChunkServer
   - read
+    - 发送要读的文件名给 Master
+    - 根据 Master 拿来的文件信息，依次从 ChunkServer 获取 Chunk
+    - 将文件 Chunk 拼写成一个文件写在本地
   - append
   - exit
   - delete
@@ -27,6 +30,10 @@
       - write
         - 获取 Client 的文件名和大小
         - 根据大小选取合适的 Chunk 和 ChunkServer 给 Client（需要将备份 ChunkServer 也传回）
+      - Read
+        - 获取 Client 要求读的文件名
+        - 查看文件名是否存在
+        - 如果存在，将文件的信息发送给 Client
   - 8888：监听 Chunk
 
 ### ChunkServer
