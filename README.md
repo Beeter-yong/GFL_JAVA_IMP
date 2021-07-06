@@ -1,6 +1,6 @@
 # GFL_JAVA_IMP
 
-以 GFL 为思想，使用 JAVA RMI 简单模拟
+以 GFS 为思想，使用 JAVA RMI 简单模拟
 
 ## 基本项目分为三个部分
 
